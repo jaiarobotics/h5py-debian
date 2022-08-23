@@ -147,7 +147,7 @@ jobs:
             cd .. &&
             export NEWVERSION="$(echo /root/src/*.orig.tar.gz | sed 's/.*_\(.*\)\.orig\.tar\.gz/\1/')"
             COMMENT="Autobuild for version ${NEWVERSION}" &&
-            dch --newversion=${NEWVERSION}-0~jaia~DISTRORELEASEVERSION.1 -D DISTRORELEASECODENAME "${COMMENT}" &&
+            dch --newversion=${NEWVERSION}-3~jaia~DISTRORELEASEVERSION.1 -D DISTRORELEASECODENAME "${COMMENT}" &&
             cp debian/changelog /root/src
       - store_artifacts:
           path: /root/src
