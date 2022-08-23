@@ -1,0 +1,732 @@
+h5py (3.6.0-2build1) jammy; urgency=medium
+
+  * No-change rebuild with Python 3.10 only
+
+ -- Graham Inggs <ginggs@ubuntu.com>  Wed, 16 Mar 2022 21:41:41 +0000
+
+h5py (3.6.0-2) unstable; urgency=medium
+
+  * Team upload.
+  * upload 3.6.0 to unstable
+
+ -- Drew Parsons <dparsons@debian.org>  Mon, 13 Dec 2021 11:32:22 +0100
+
+h5py (3.6.0-1exp1) experimental; urgency=medium
+
+  * Team upload.
+  * New upstream release.
+    - makes debian patch numpy_min_version.patch redundant
+  * mark hdf5-plugin-lzf Multi-Arch: same
+  * debian patch doc_local_mathjax.patch configures docs to reference
+    mathjax locally
+
+ -- Drew Parsons <dparsons@debian.org>  Fri, 03 Dec 2021 17:55:24 +0100
+
+h5py (3.5.0-2) unstable; urgency=medium
+
+  * Team upload.
+  * update debian patch skip_ros_test_no_net.patch to skip ROS3 network
+    file tests if environment variable H5PY_NO_NETWORK_TEST is set.
+    Apply during debian build-time tests. Closes: #998215.
+
+ -- Drew Parsons <dparsons@debian.org>  Sun, 14 Nov 2021 18:26:39 +0100
+
+h5py (3.5.0-1exp1) experimental; urgency=medium
+
+  * Team upload.
+  * New upstream release.
+
+ -- Drew Parsons <dparsons@debian.org>  Sat, 06 Nov 2021 17:15:49 +0100
+
+h5py (3.4.0-1exp1) experimental; urgency=medium
+
+  * Team upload.
+  * New upstream release.
+  * use wildcard and triple-slash for mathjax file references in docs
+
+ -- Drew Parsons <dparsons@debian.org>  Tue, 24 Aug 2021 18:23:51 +0200
+
+h5py (3.3.0-5) unstable; urgency=medium
+
+  * Team upload.
+  * debian patch fix-unaligned-access.patch avoids an unaligned memory
+    access causing build failure on armhf. Thanks Michael Hudson-Doyle.
+    Closes: #998838.
+
+ -- Drew Parsons <dparsons@debian.org>  Tue, 09 Nov 2021 23:52:01 +0100
+
+h5py (3.3.0-4) unstable; urgency=medium
+
+  * Team upload.
+  * add debian patches
+    - skip_ros_test_no_net.patch skips test_ros3 (catches OSError) if
+      network is not available. Needed since libhdf5 is now built with
+      ROS (S3) support, but network access is not available on buildd
+      servers. Closes: #998215.
+    - relax_hdf5_version_test.patch relaxes HDF5 version test to only
+      compare major.minor version.  Patches can be assumed to be
+      compatibility (will depend on libhdf5 ABI-versioned library
+      packages in any case). Closes: #994617.
+  * remove deprecated windows/stdint.h from debian/copyright
+  * suppress pytest-xvfb with -p no:xvfb not --no-xvfb
+
+ -- Drew Parsons <dparsons@debian.org>  Thu, 04 Nov 2021 02:27:38 +0100
+
+h5py (3.3.0-3) unstable; urgency=medium
+
+  * Team upload.
+  * drop python3-h5py*-dbg packages.
+    Python debug builds now use same ABI as standard build.
+    Closes: #994302.
+  * debian patch update_mpi4py.patch relaxes strict mpi4py version
+    requirement to enable build with mpi4py 3.1.
+    See https://github.com/h5py/h5py/issues/1969
+    The alternative is to set H5PY_SETUP_REQUIRES=0 so as to not
+    conduct build-time version checks, but for Debian it can be useful
+    to maintain minimal version checks.
+  * update mathjax replacement in docs processing
+
+ -- Drew Parsons <dparsons@debian.org>  Thu, 30 Sep 2021 16:00:17 +0200
+
+h5py (3.3.0-2) unstable; urgency=medium
+
+  * Team upload.
+  * Standards-Version: 4.6.0
+
+ -- Drew Parsons <dparsons@debian.org>  Tue, 24 Aug 2021 16:53:44 +0200
+
+h5py (3.3.0-1exp1) experimental; urgency=medium
+
+  * Team upload.
+  * New upstream release.
+
+ -- Drew Parsons <dparsons@debian.org>  Thu, 08 Jul 2021 15:06:56 +0200
+
+h5py (3.2.1-1exp2) experimental; urgency=medium
+
+  * Team upload.
+  * Build the hdf5-plugin-lzf package, providing the lzf filter
+    plugin to use the LZF compression library with HDF5. Built for
+    both serial (single processor) jobs (libhdf5-dev) and for
+    multiprocessor (threaded) jobs (libhdf5-mpi-dev).
+    Build-Depends: pkg-config. Closes: #960655.
+
+ -- Drew Parsons <dparsons@debian.org>  Sun, 04 Apr 2021 00:55:20 +0200
+
+h5py (3.2.1-1exp1) experimental; urgency=medium
+
+  * Team upload.
+  * New upstream release.
+    - versioned Build-Depends: cython3 (>= 0.29.15),
+      python3-mpi4py (>= 3.0.3), python3-numpy (>= 1.19.3)
+  * run MPI tests (--with-mpi) with pytest-xvfb switched off (--no-xvfb)
+    pytest-mpi is fragile when pytest-xvfb is loaded, see pytest-mpi
+    upstream Issue #31.
+  * Standards-Version: 4.5.1
+
+ -- Drew Parsons <dparsons@debian.org>  Sat, 27 Mar 2021 02:05:50 +0100
+
+h5py (3.1.0-1exp1) experimental; urgency=medium
+
+  * Team upload.
+  * New upstream release.
+  * upstream tests now test MPI support via pytest-mpi (--with-mpi)
+    Closes: #941846.
+  * use H5PY_SYSTEM_LZF=1 to build against system lzf.
+    debian patch use_system_lzf.patch still needed to provide path to
+    lzf include dir.
+
+ -- Drew Parsons <dparsons@debian.org>  Sat, 07 Nov 2020 19:31:43 +0800
+
+h5py (3.0.0-1exp1) experimental; urgency=medium
+
+  * Team upload.
+  * New upstream release.
+    - applies debian patches
+        drop_deprecated_dtype_6a77b91.patch
+        drop_deprecation_tests.patch
+        file_default_read_5e71c49.patch
+        fix_2.10_docs.patch
+        remove_deprecated_highlevel_module_2f41c78.patch
+  * Build-Depends: python3-cached-property, python3-pytest-mpi
+  * debhelper compatibility level 13
+  * Build conditions (serial or mpi) now controlled by environment
+    variables HDF5_MPI, HDF5_PKGCONFIG_NAME
+  * add debian patches
+    - numpy_min_version.patch requires build against minimum numpy
+      versions (not exact versions)
+    - skip_test_selection_assertion.patch uses type name instead of
+      assertIsInstance to check correct Selection objects are generated
+      (since _debian_h5py_{serial,mpi} submodules alter instance path)
+  * setup.py configure rule no longer supported. Use build rule.
+  * don't run build-time tests directly in build dir or else imports
+    aren't done consistently
+  * provide test data_files in tests subdir
+  * make h5py_warnings accessible through toplevel wrapper script
+
+ -- Drew Parsons <dparsons@debian.org>  Fri, 06 Nov 2020 16:26:50 +0800
+
+h5py (2.10.0-9) unstable; urgency=medium
+
+  * Team upload.
+  * update mathjax handling to mathjax 2.7.7. Closes: #963635.
+
+ -- Drew Parsons <dparsons@debian.org>  Mon, 17 Aug 2020 19:54:50 +0800
+
+h5py (2.10.0-8) unstable; urgency=medium
+
+  * Team upload.
+  * reinstate upstream deprecation patches. Closes: #959940.
+  * add debian patch use_system_lzf.patch to use lzf from liblzf-dev.
+    (still needs localpath('lzf') to access lzf_filter.h)
+    Build-Depends: liblzf-dev. Closes: #958319.
+
+ -- Drew Parsons <dparsons@debian.org>  Wed, 13 May 2020 15:45:16 +0800
+
+h5py (2.10.0-7) unstable; urgency=medium
+
+  * Team upload.
+  * check environment variable H5PY_ALWAYS_USE_MPI to force use of the
+    MPI build of h5py/HDF5 in a serial process
+
+ -- Drew Parsons <dparsons@debian.org>  Sat, 18 Apr 2020 11:21:30 +0800
+
+h5py (2.10.0-6) unstable; urgency=medium
+
+  * Team upload.
+  * provide alternate test rule when nocheck is set in DEB_BUILD_OPTIONS
+  * use hdf5-mpi.pc as pkg-config file rather than specific MPI
+    implementation (links to specific preferred alternative version)
+    - requires libhdf5-mpi-dev (>= 1.10.6+repack-1)
+    - add lintian override for build-depends-on-1-revision
+      (-1~exp versions did not have the hdf5-mpi.pc alternative in place)
+  * aid HDF5 transition by disabling upstream patches and update
+    drop_deprecation_tests.patch to give bitshuffle time to adapt.
+
+ -- Drew Parsons <dparsons@debian.org>  Sun, 05 Apr 2020 20:47:15 +0800
+
+h5py (2.10.0-5) unstable; urgency=medium
+
+  * Team upload.
+  * make a lintian override against h5py source:
+    dbg-package-missing-depends python3-h5py-dbg (dummy -dbg package,
+    doesn't actually need python3-h5py, which is also a dummy package)
+  * debian/tests Depends: on serial and mpi packages, mpi-default-bin.
+  * set openmpi to allow oversubscribing processes for tests
+  * split debian/tests to separate serial and mpi tests
+
+ -- Drew Parsons <dparsons@debian.org>  Mon, 30 Mar 2020 13:13:16 +0800
+
+h5py (2.10.0-4) unstable; urgency=medium
+
+  * Team upload.
+  * provide h5py.__version__ (but use h5py.version in applications)
+  * only build docs in arch-indep builds
+  * reinstate python3-h5py-dbg as dummy package depending on
+    python3-h5py-serial-dbg or python3-h5py-mpi-dbg.
+
+ -- Drew Parsons <dparsons@debian.org>  Sat, 28 Mar 2020 22:36:31 +0800
+
+h5py (2.10.0-3) unstable; urgency=medium
+
+  * Team upload.
+
+  [ Debian Janitor ]
+  * Use secure URI in Homepage field.
+
+  [ Drew Parsons ]
+  * provide separate serial and MPI builds in python3-h5py-serial and
+    python3-h5py-mpi. python3-h5py-serial provides a h5py.py loader
+    file to only import h5py-mpi for multiprocess jobs, otherwise
+    import h5py-serial. python3-h5py is a dummy package depending on
+    python3-h5py-serial or python3-h5py-mpi.
+    - provides generic h5py/__init__.py which imports h5py_serial or
+      h5py_mpi as required
+    - needs debian patches:
+    - hdf5_pkgconfig.patch allows pkg-config entry for HDF5 to be
+      specified (e.g. hdf5-serial)
+    - build_flavour.patch allows build flavour (_serial or _mpi) to be
+      specified for module path
+    - stop_circular_dep.patch stops circular dependency in _objects
+    - drop_deprecated_dtype_6a77b91.patch,
+      remove_deprecated_highlevel_module_2f41c78.patch,
+      file_default_read_5e71c49.patch for upstream commits 6a77b91,
+      2f41c78 and 5e71c49 and
+      drop_deprecation_tests.patch removes long-deprecated dtypes,
+      highlevel.py and tests/test_deprecation.py and use of
+      H5pyDeprecationWarning in tests (dropped upstream)
+    - tests_as_local_build.patch launches tests relative to the given
+      h5py build (i.e. don't hardcode "h5py")
+    - Closes: #944769, #944617, #946986.
+  * Standards-Version: 4.5.0
+  * Build-Depends: mpi-default-dev (need to know which mpi since there
+    is currently no hdf5-mpi.pc to invoke, only specific mpi versions)
+
+ -- Drew Parsons <dparsons@debian.org>  Thu, 05 Mar 2020 19:22:27 +0800
+
+h5py (2.10.0-2) unstable; urgency=medium
+
+  * Team upload.
+  * Drop Python 2 package. Closes: #936684
+
+ -- Ole Streicher <olebole@debian.org>  Tue, 15 Oct 2019 14:41:14 +0200
+
+h5py (2.10.0-1) unstable; urgency=medium
+
+  * Team upload.
+  * New upstream release.
+    - HDF5 8-bit bitfield data can now be either uint8 or boolean
+    - default file mode is now read-only
+    - numpy arrays and empty lists can now be used for fancy-indexing
+    - applies or deprecates Debian patches:
+      * b59221621673950e93644b4c2051c41153810f41.patch
+      * build_hdf5_1.10.5_1186.diff
+      * fb3f355d0f7ff225a2041447a309e90129adae99.patch
+      * fix_deprecated_assertEquals_4464353.diff
+      * fix_deprecated_assert_1123a0c.diff
+      * fix_test_file_61c0a86.diff
+      * import_H5pyDeprecationWarning_a67b2c7.diff
+      * test_verbosity_level.patch
+  * debian patch fix_2.10_docs.patch adds 2.10.0 changelog to docs
+  * Standards-Version: 4.4.1
+  * Build-Depends: python3-pytest (since h5py.tests.runtests() now
+    invokes pytest)
+  * drop python2 tests, build-time and debian/tests
+    (test_h5d_direct_chunk.py::TestReadDirectChunk fails in python2)
+  * Create debian/tests/test_file_mpi.py to run MPI tests.
+    (MPI runs of h5py.run_tests() is broken in 2.10.0,
+    see https://github.com/h5py/h5py/issues/1364)
+
+ -- Drew Parsons <dparsons@debian.org>  Tue, 01 Oct 2019 02:55:24 +0800
+
+h5py (2.9.0-7) unstable; urgency=medium
+
+  * Team upload.
+  * Build and test python3-h5py-dbg against python3-mpi4py-dbg
+  * debian patch python3-dbg_skip_file_test_exception.patch skips
+    test_exception_close and _write which fail in python3-dbg.
+    See https://github.com/h5py/h5py/issues/1291.  Reopens: #923104.
+
+ -- Drew Parsons <dparsons@debian.org>  Fri, 30 Aug 2019 01:02:59 +0800
+
+h5py (2.9.0-6) unstable; urgency=medium
+
+  * Team upload.
+  * debian patch build_hdf5_1.10.5_1186.diff applies upstream PR1186
+    to allow builds against HDF5 1.10.5. Closes: #931736.
+  * python3-h5py Depends: python3-mpi4py
+    (and drop explicit Depends: python3-mpi4py from tests)
+  * mark dbg packages as Multi-Arch: same
+    - add source/lintian-overrides to ignore warning that python3-h5py
+      is not marked Multi-Arch
+
+ -- Drew Parsons <dparsons@debian.org>  Tue, 20 Aug 2019 04:20:22 +0800
+
+h5py (2.9.0-5) unstable; urgency=medium
+
+  * Team upload.
+  * create debian patch test_verbosity_level.patch to control
+    verbosity level of tests, as h5py.run_tests(verbosity)
+    - verbosity=1   show dots without detail (default)
+    - verbosity=2   show names of tests and descriptions
+  * create debian patch test_file_mktemp_MPI.patch to use mktemp with
+    MPI in test_close_multiple_mpio_driver and other mpio tests
+  * skip tests with python-dbg (needs python-mpi4py-dbg, which is not
+    yet available)
+
+ -- Drew Parsons <dparsons@debian.org>  Sun, 18 Aug 2019 05:36:10 +0800
+
+h5py (2.9.0-4) experimental; urgency=medium
+
+  * Team upload.
+  * enable MPI parallelisation by building against libhdf5-mpi-dev
+
+ -- Drew Parsons <dparsons@debian.org>  Sat, 17 Aug 2019 11:13:25 +0800
+
+h5py (2.9.0-3) unstable; urgency=medium
+
+  * Team upload.
+  * override dh_installdocs for arch-indep builds only
+
+ -- Drew Parsons <dparsons@debian.org>  Mon, 12 Aug 2019 22:41:24 +0800
+
+h5py (2.9.0-2) unstable; urgency=medium
+
+  * Team upload.
+  * Standards-Version: 4.4.0
+  * debhelper compatibility level 12
+  * skip dh_auto_test if nocheck is set in DEB_BUILD_OPTIONS
+    Closes: #932426.
+  * Close privacy-breach-generic in docs: replace external link to
+    latest.js with link to local file from libjs-mathjax.
+  * update skip-test-ppc64el.patch to provide a reason
+  * apply upstream patches to fix tests. Closes: #923104.
+    - import_H5pyDeprecationWarning_a67b2c7.diff,
+      to fix test_deprecation.py
+    - fix_deprecated_assertEquals_4464353.diff,
+      fix_deprecated_assert_1123a0c.diff
+      to update deprecated assertEquals function
+    - fix_test_file_61c0a86.diff applies commit 61c0a86 to add file
+      modes to fix test_file.py
+  * skip testing with python3-dbg. Triggers a test fail (other python
+    interpreters pass)
+
+ -- Drew Parsons <dparsons@debian.org>  Mon, 12 Aug 2019 20:40:28 +0800
+
+h5py (2.9.0-1) unstable; urgency=medium
+
+  * New upstream version 2.9.0
+  * Remove patches included in the 2.9.0 release and Refresh patches.
+  * Override dh_auto_test to run tests in the way recommended by upstream.
+  * Bump Standards-Version to 4.3.0 (no change).
+
+ -- Mo Zhou <cdluminate@gmail.com>  Sat, 02 Feb 2019 07:40:35 +0000
+
+h5py (2.8.0-3) unstable; urgency=medium
+
+  * Cherry-pick upstream commit df9268c26f2a98e0891afc15aa497d062c53a56a
+    "TST/API: do not remap the exceptions for the get_num_objs"
+    The previous patch for fixing HDF5 1.10.3 compatibility is incorrect.
+
+ -- Mo Zhou <cdluminate@gmail.com>  Tue, 18 Dec 2018 13:28:21 +0000
+
+h5py (2.8.0-2) unstable; urgency=medium
+
+  [ Andreas Tille ]
+  * Remove unneeded get-orig-source target
+
+  [ Gilles Filippini ]
+  * Fix FTBFS against HDF5 1.10.3 (Closes: #914245)
+    (+ hdf5-1.10.3-support.patch)
+
+  [ Mo Zhou ]
+  * Add myself to Uploaders.
+
+ -- Mo Zhou <cdluminate@gmail.com>  Fri, 23 Nov 2018 15:00:39 +0000
+
+h5py (2.8.0-1) unstable; urgency=medium
+
+  * Team upload.
+
+  [ Andreas Tille ]
+  * New upstream version (Closes: #902553, #898526, #900419)
+  * Bump debhelper compat level to 11
+  * Point Vcs fields to salsa.debian.org
+  * Standards-Version: 4.1.4
+
+  [ Mo Zhou ]
+  * Remove the ancient X-Python*-Version fields.
+  * Bump Standards-Version to 4.2.0 .
+    - Remove Priority: extra from control since it had been deprecated.
+  * Add the missing B-D python-unittest2 for python2 tests.
+
+ -- Mo Zhou <cdluminate@gmail.com>  Sat, 04 Aug 2018 16:54:06 +0000
+
+h5py (2.7.1-2) unstable; urgency=medium
+
+  * Fixup the debug package description for Python 2.
+    Thanks to James Clarke
+  * Replace occurrences of findstring with filter.
+    Thanks to James Clarke
+  * Build and install the low-level API documentation
+    - Move Sphinx to Build-Depends
+    - Build and install the API documentation
+    - New patch Fix-build-of-API-docs-with-Python-3.patch
+    Thanks to Drew Parsons for reporting (Closes: #874712)
+  * Filter egg-info directory with extend-diff-ignore
+  * Add recommended get-orig-source target
+
+ -- Ghislain Antony Vaillant <ghisvail@gmail.com>  Mon, 11 Sep 2017 10:15:49 +0100
+
+h5py (2.7.1-1) unstable; urgency=medium
+
+  * Switch from git-dpm to gbp
+  * New upstream version 2.7.1 (Closes: #867987)
+  * Update the patch queue
+    - Drop patch numbering, rename 0001-Disable-usage-of-rpath.patch to
+      No-rpath.patch
+    - New patch No-intersphinx.patch, disable useless intersphinx mapping
+  * Update copyright information and dates
+  * Normalize the package descriptions
+  * Build the docs using the upstream Makefile
+  * Use DEB_BUILD_OPTIONS for the nodoc guards
+  * Bump the standards version to 4.1.0
+
+ -- Ghislain Antony Vaillant <ghisvail@gmail.com>  Sun, 03 Sep 2017 18:17:55 +0200
+
+h5py (2.7.0-1) unstable; urgency=medium
+
+  * Run DEP-8 tests for all supported Python versions
+  * Add missing i-deps on python{,3}-numpy-dbg (Closes: #858727)
+  * Source future releases from PyPI
+  * New upstream release
+  * Rebase patch queue
+    - Drop 0002-Fix-arch-name-for-ppc64le.patch, applied upstream
+    - Drop 0003-Fix-version_tuple-to-make-it-PEP440-compliant.patch, applied
+      upstream
+
+ -- Ghislain Antony Vaillant <ghisvail@gmail.com>  Fri, 07 Apr 2017 14:08:48 +0100
+
+h5py (2.7.0~rc3-1) unstable; urgency=medium
+
+  * New upstream release (Closes: #851162)
+  * Rebase patch queue
+    - Drop 0002-Explicity-specify-endianess-of-expected-output-type.patch,
+    applied upstream
+  * Cherry pick upstream fix for builds on ppc64el
+    - New patch 0002-Fix-arch-name-for-ppc64le.patch
+  * Cherry-pick proposed fix for version numbers
+    - New patch 0003-Fix-version_tuple-to-make-it-PEP440-compliant.patch
+
+ -- Ghislain Antony Vaillant <ghisvail@gmail.com>  Wed, 25 Jan 2017 14:13:35 +0000
+
+h5py (2.7.0~rc2-2) unstable; urgency=medium
+
+  * Cherry-pick proposed fix for FTBFS on mips and s390x (Closes: #850699)
+    - New patch 0002-Explicity-specify-endianess-of-expected-output-type.patch
+
+ -- Ghislain Antony Vaillant <ghisvail@gmail.com>  Thu, 12 Jan 2017 12:22:23 +0000
+
+h5py (2.7.0~rc2-1) unstable; urgency=medium
+
+  * Switch to git-dpm
+    - The patch queue is numbered now
+    - The gbp configuration has been dropped
+  * New upstream release
+  * Rebase the patch queue
+    - Drop 0002-Disable-broken-tests.patch, fixed upstream
+    - Drop 0003-Package-Config-Fix-Detection.patch, applied upstream
+  * Drop versioned dependency on Cython, no longer required
+  * Adjust the minimum version of Python 3 to 3.3
+  * Upgrade the packaging to debhelper 10
+  * Support the nodoc build profile
+    - Add appropriate build dependency on dpkg-dev
+    - Mark build dependencies for the documentation as !nodoc
+    - Add build dependency on sphinx-common for dh_sphinxdoc
+    - Do not build the documentation if nodoc is requested
+  * Fix incomplete care of debug packages
+    - Use nominal set of install dependencies for each -dbg package
+    - Add missing dh_strip override for each -dbg package
+  * Add missing Built-Using for the Sphinx documentation
+
+ -- Ghislain Antony Vaillant <ghisvail@gmail.com>  Thu, 05 Jan 2017 19:05:19 +0000
+
+h5py (2.6.0-2) unstable; urgency=medium
+
+  * Cherry-pick upstream patch fixing HDF5 detection.
+    - New patch Package-Config-Fix-Detection.patch.
+    Thanks to Iain Lane for reporting (Closes: #846351)
+  * Bump standards version to 3.9.8, no changes required.
+  * Use HTTPS for the copyright Format URI.
+  * Drop superfluous Testsuite field.
+  * Mark -doc package Multi-Arch: foreign.
+  * Suggest install of -doc package.
+  * Call dh_numpy{,3} in dh_python{2,3} overrides.
+  * Enable hardening.
+  * Cosmetic fixups in rules file.
+  * Update gbp.conf with current repository layout.
+  * Simplify the packaging testsuite.
+
+ -- Ghislain Antony Vaillant <ghisvail@gmail.com>  Thu, 01 Dec 2016 11:53:05 +0000
+
+h5py (2.6.0-1) unstable; urgency=medium
+
+  * New upstream release.
+  * d/gbp.conf: no patch numbering.
+  * Update patch queue:
+    - Drop 0002-prevent-cython-dep.patch, no longer required.
+    - Drop drop-mpiposix.patch, unused.
+    - Refresh Disable-usage-of-rpath.patch.
+  * Update build dependencies:
+    - Raise versioned depends on cython to 0.19.
+    - Drop versioned depends on numpy and sphinx.
+  * Update copyright:
+    - add myself to the copyright holders of the debian files.
+    - add missing copyright information for vendored files.
+    - cme fix, wrap and sort.
+  * Add patch disabling broken tests acknowledged upstream.
+    Thanks to Gilles Filippini. (Closes: #797476)
+
+ -- Ghislain Antony Vaillant <ghisvail@gmail.com>  Tue, 02 Feb 2016 16:11:06 +0000
+
+h5py (2.5.0-3) unstable; urgency=medium
+
+  * Add missing install dependencies for debug packages.
+  * d/control: use secure VCS-Git URI.
+
+ -- Ghislain Antony Vaillant <ghisvail@gmail.com>  Tue, 26 Jan 2016 07:46:33 +0000
+
+h5py (2.5.0-2) unstable; urgency=medium
+
+  * Add debug extension packages.
+    Thanks to Picca Frederic-Emmanuel (Closes: #793789)
+  * d/control: cme fix, wrap and sort, update descriptions.
+  * Add examples to doc package.
+  * Move documentation generation to arch-indep targets.
+  * Add autopkgtest testsuite.
+  * Simplify clean target.
+
+ -- Ghislain Antony Vaillant <ghisvail@gmail.com>  Sun, 24 Jan 2016 11:44:54 +0000
+
+h5py (2.5.0-1) unstable; urgency=medium
+
+  * Remove dependency on pkg-config.
+  * Release to unstable.
+
+ -- Ghislain Antony Vaillant <ghisvail@gmail.com>  Thu, 02 Jul 2015 12:29:04 +0100
+
+h5py (2.5.0-1~exp1) experimental; urgency=medium
+
+  * New usptream release
+  * Add documentation package
+  * d/p/*: refresh patches
+  * d/watch: track upstream releases on Github, avoid repack
+  * d/copyright: remove repack
+  * d/rules: more files added to clean target
+  * d/control:
+    - add build-dep on python{3}-six
+    - add build-dep on python{3}-pkgconfig
+
+ -- Ghislain Antony Vaillant <ghisvail@gmail.com>  Fri, 17 Apr 2015 00:15:33 +0100
+
+h5py (2.4.0+dfsg1-1~exp3) experimental; urgency=medium
+
+  * Definitely remove install dependency on cython
+  * d/patches/*:
+    - series: correct order of patches
+    - 0002*.patch: better patch to avoid cython
+  * d/control: add versioned build-dep on cython
+
+ -- Ghislain Antony Vaillant <ghisvail@gmail.com>  Thu, 16 Apr 2015 07:50:21 +0100
+
+h5py (2.4.0+dfsg1-1~exp2) experimental; urgency=medium
+
+  * Remove unnecessary install dependency on cython
+  * d/control: lintian fix
+  * d/patches/*: add 0002-prevent-cython-dep.patch
+
+ -- Ghislain Antony Vaillant <ghisvail@gmail.com>  Tue, 14 Apr 2015 12:32:30 +0100
+
+h5py (2.4.0+dfsg1-1~exp1) experimental; urgency=medium
+
+  * New upstream release
+  * d/control: lintian fix
+  * d/copyright:
+    - lintian fix
+    - made dep5 compatible
+    - strip residual .DS_Store files in tarball
+  * d/watch:
+    - add repack due to file strip
+  * d/patches/*:
+    - add 0001-prevent-rpath.patch
+    - disable drop-mpiposix.patch
+
+ -- Ghislain Antony Vaillant <ghisvail@gmail.com>  Tue, 31 Mar 2015 23:37:54 +0100
+
+h5py (2.2.1-2~exp1) experimental; urgency=medium
+
+  * Move package maintenance over to d-science.
+  * Bump standards version to 3.6 (no changes required).
+  * Use pybuild as package build system.
+  * d/watch: use pypi.debian.net.
+  * d/rules: clean cythonized c-files.
+  * Use pkg-config for HDF5 compile and link flags.
+
+ -- Ghislain Antony Vaillant <ghisvail@gmail.com>  Thu, 26 Mar 2015 15:57:33 +0000
+
+h5py (2.2.1-1.1) unstable; urgency=medium
+
+  * Non-maintainer upload (closes: #756668).
+  * Support hdf5 1.8.13 new packaging path layout.
+  * Patch drop-mpiposix.patch: MPIPOSIX interface was dropped in
+    hdf5 1.8.13
+
+ -- Gilles Filippini <pini@debian.org>  Wed, 06 Aug 2014 19:19:39 +0200
+
+h5py (2.2.1-1) unstable; urgency=low
+
+  * New upstream version
+  * Fix python3 dependency (Closes: #732586)
+
+ -- Soeren Sonnenburg <sonne@debian.org>  Sat, 04 Jan 2014 23:18:29 +0100
+
+h5py (2.2.0-1) unstable; urgency=low
+
+  * New upstream version (Closes: #691797, #691282)
+  * Bump compat version to 9.
+  * Bump standards version to 3.9.4.
+  * Provide python3 package (Closes: #670545)
+  * Update Vcs-* field (Closes: #664325)
+  * Add cython as build deps.
+
+ -- Soeren Sonnenburg <sonne@debian.org>  Sat, 16 Nov 2013 06:46:45 +0100
+
+h5py (2.0.1-2) unstable; urgency=low
+
+  * Build depend on libhdf5-dev instead of libhdf5-serial-dev to accomodate
+  hdf5 transition.
+
+ -- Soeren Sonnenburg <sonne@debian.org>  Wed, 18 Jan 2012 21:50:16 +0100
+
+h5py (2.0.1-1) unstable; urgency=low
+
+  * New upstream version.
+  * Remove h5py_config.pickle created on
+    python setup.py clean (Closes: #643152)
+
+ -- Soeren Sonnenburg <sonne@debian.org>  Wed, 12 Oct 2011 12:47:45 +0200
+
+h5py (2.0.0-1) unstable; urgency=low
+
+  * New upstream version.
+  * Bump standards version to 3.9.2 (no changes required).
+  * Switch package to dh_python2.
+
+ -- Soeren Sonnenburg <sonne@debian.org>  Sun, 24 Jul 2011 21:13:37 +0200
+
+h5py (1.3.1-1) unstable; urgency=low
+
+  * New upstream version.
+
+ -- Soeren Sonnenburg <sonne@debian.org>  Wed, 12 Jan 2011 14:48:19 +0100
+
+h5py (1.3.0-3) unstable; urgency=low
+
+  * Convert package to pysupport and call dh_numpy upon install
+    (Closes: #590738,#589835).
+  * Bump standards version to 3.9.1.0 (no changes required).
+
+ -- Soeren Sonnenburg <sonne@debian.org>  Fri, 30 Jul 2010 21:12:45 +0200
+
+h5py (1.3.0-2) unstable; urgency=low
+
+  * Update watch file for recent google code change.
+
+ -- Soeren Sonnenburg <sonne@debian.org>  Thu, 27 May 2010 10:49:01 +0200
+
+h5py (1.3.0-1) unstable; urgency=low
+
+  * New upstream version.
+    - Remove quilt patches.
+    - Bump standards version to 3.8.4 (no changes required).
+    - Switch to dpkg-source 3.0 (quilt) format.
+
+ -- Soeren Sonnenburg <sonne@debian.org>  Tue, 23 Mar 2010 15:38:34 +0100
+
+h5py (1.2.1-2) unstable; urgency=low
+
+  * Build-depend on hdf5 >= 1.8.3 and enable api 1.8 (Closes: #548049)
+
+ -- Soeren Sonnenburg <sonne@debian.org>  Thu, 24 Sep 2009 11:08:03 +0200
+
+h5py (1.2.1-1) unstable; urgency=low
+
+  * New upstream version.
+
+ -- Soeren Sonnenburg <sonne@debian.org>  Tue, 15 Sep 2009 08:01:40 +0200
+
+h5py (1.2.0-1) unstable; urgency=low
+
+  * Initial release (Closes: #543766)
+
+ -- Soeren Sonnenburg <sonne@debian.org>  Wed, 26 Aug 2009 23:50:43 +0200

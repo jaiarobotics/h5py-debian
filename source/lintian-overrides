@@ -1,0 +1,4 @@
+h5py source: dependency-is-not-multi-archified python3-h5py-serial-dbg depends on python3-h5py-serial (multi-arch: no)
+h5py source: dependency-is-not-multi-archified python3-h5py-mpi-dbg depends on python3-h5py-mpi (multi-arch: no)
+h5py source: dbg-package-missing-depends python3-h5py-dbg
+h5py source: build-depends-on-1-revision Build-Depends: libhdf5-mpi-dev (>= 1.10.6+repack-1)

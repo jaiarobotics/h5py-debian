@@ -1,0 +1,12 @@
+Index: h5py/setup_build.py
+===================================================================
+--- h5py.orig/setup_build.py	2021-07-08 15:04:03.611073039 +0200
++++ h5py/setup_build.py	2021-07-08 15:04:03.603073023 +0200
+@@ -51,6 +51,7 @@
+     EXTRA_LIBRARIES = {
+        'h5z': [ 'lzf' ]
+     }
++    COMPILER_SETTINGS['include_dirs'].append('/usr/include/liblzf')
+ else:
+     COMPILER_SETTINGS['include_dirs'] += [localpath('lzf/lzf')]
+ 

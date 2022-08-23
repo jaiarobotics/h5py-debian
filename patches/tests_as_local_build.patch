@@ -1,0 +1,12 @@
+Index: h5py/h5py/tests/__init__.py
+===================================================================
+--- h5py.orig/h5py/tests/__init__.py	2020-11-01 23:17:32.409069108 +0800
++++ h5py/h5py/tests/__init__.py	2020-11-01 23:17:32.405069110 +0800
+@@ -18,6 +18,6 @@
+         from shlex import split
+         from subprocess import call
+         from sys import executable
+-        cli = [executable, "-m", "pytest", "--pyargs", "h5py"]
++        cli = [executable, "-m", "pytest", "--pyargs", __name__.replace('.tests','')]
+         cli.extend(split(args))
+         return call(cli)

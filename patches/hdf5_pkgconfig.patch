@@ -1,0 +1,88 @@
+--- a/setup_build.py
++++ b/setup_build.py
+@@ -90,8 +90,8 @@
+             settings['library_dirs'].insert(0, op.join(config.hdf5, 'lib'))
+         else:
+             try:
+-                if pkgconfig.exists('hdf5'):
+-                    pkgcfg = pkgconfig.parse("hdf5")
++                if pkgconfig.exists(config.hdf5_pc):
++                    pkgcfg = pkgconfig.parse(config.hdf5_pc)
+                     settings['include_dirs'].extend(pkgcfg['include_dirs'])
+                     settings['library_dirs'].extend(pkgcfg['library_dirs'])
+                     settings['define_macros'].extend(pkgcfg['define_macros'])
+--- a/setup_configure.py
++++ b/setup_configure.py
+@@ -85,12 +85,14 @@
+     description = "Configure h5py build options"
+ 
+     user_options = [('hdf5=', 'h', 'Custom path to HDF5'),
++                    ('hdf5-pc=', 'p', 'pkg-config entry for HDF5'),
+                     ('hdf5-version=', '5', 'HDF5 version "X.Y.Z"'),
+                     ('mpi', 'm', 'Enable MPI building'),
+                     ('reset', 'r', 'Reset config options') ]
+ 
+     def initialize_options(self):
+         self.hdf5 = None
++        self.hdf5_pc = None
+         self.hdf5_version = None
+         self.mpi = None
+         self.reset = None
+@@ -119,6 +121,8 @@
+         # round; ignore the others (which have value None).
+         if self.hdf5 is not None:
+             dct['cmd_hdf5'] = self.hdf5
++        if self.hdf5_pc is not None:
++            dct['pc_hdf5'] = self.hdf5_pc
+         if env.hdf5 is not None:
+             dct['env_hdf5'] = env.hdf5
+         if self.hdf5_version is not None:
+@@ -150,6 +154,11 @@
+         if self.hdf5 is None:
+             self.hdf5 = oldsettings.get('env_hdf5')
+ 
++        if self.hdf5_pc is None:
++            self.hdf5_pc = oldsettings.get('pc_hdf5')
++        if self.hdf5_pc is None:
++            self.hdf5_pc = "hdf5"  # standard pkg-config entry for HDF5 is hdf5
++
+         if self.hdf5_version is None:
+             self.hdf5_version = oldsettings.get('cmd_hdf5_version')
+         if self.hdf5_version is None:
+@@ -157,7 +166,7 @@
+         if self.hdf5_version is None:
+             self.hdf5_version = oldsettings.get('env_hdf5_version')
+         if self.hdf5_version is None:
+-            self.hdf5_version = autodetect_version(self.hdf5)
++            self.hdf5_version = autodetect_version(self.hdf5, self.hdf5_pc)
+             print("Autodetected HDF5 %s" % self.hdf5_version)
+ 
+         if self.mpi is None:
+@@ -173,6 +182,7 @@
+         print(' ' * 23 + "Summary of the h5py configuration")
+         print('')
+         print("    Path to HDF5: " + repr(self.hdf5))
++        print("    HDF5 pkg-config: " + repr(self.hdf5_pc))
+         print("    HDF5 Version: " + repr(self.hdf5_version))
+         print("     MPI Enabled: " + repr(bool(self.mpi)))
+         print("Rebuild Required: " + repr(bool(self.rebuild_required)))
+@@ -180,7 +190,7 @@
+         print('*' * 80)
+ 
+ 
+-def autodetect_version(hdf5_dir=None):
++def autodetect_version(hdf5_dir=None, hdf5_pc="hdf5"):
+     """
+     Detect the current version of HDF5, and return X.Y.Z version string.
+ 
+@@ -208,8 +218,8 @@
+ 
+     libdirs = ['/usr/local/lib', '/opt/local/lib']
+     try:
+-        if pkgconfig.exists("hdf5"):
+-            libdirs.extend(pkgconfig.parse("hdf5")['library_dirs'])
++        if pkgconfig.exists(hdf5_pc):
++            libdirs.extend(pkgconfig.parse(hdf5_pc)['library_dirs'])
+     except EnvironmentError:
+         pass
+     if hdf5_dir is not None:

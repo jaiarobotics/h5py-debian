@@ -1,0 +1,16 @@
+No-rpath.patch
+No-intersphinx.patch
+test-skip-test_float_round_tripping.patch
+skip-test-ppc64el.patch
+python3-dbg_skip_file_test_exception.patch
+#hdf5_pkgconfig.patch
+build_flavour.patch
+stop_circular_dep.patch
+tests_as_local_build.patch
+use_system_lzf.patch
+skip_test_selection_assertion.patch
+update_mpi4py.patch
+skip_ros_test_no_net.patch
+relax_hdf5_version_test.patch
+fix-unaligned-access.patch
+doc_local_mathjax.patch

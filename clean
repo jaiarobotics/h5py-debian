@@ -1,0 +1,7 @@
+h5config.pkl
+h5py.egg-info/
+h5py/_hdf5.pxd
+h5py/config.pxi
+h5py/defs.pxd
+h5py/defs.pyx
+h5py/*.c

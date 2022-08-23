@@ -1,0 +1,10 @@
+#!/bin/sh
+set -e
+
+for py in $(py3versions -r 2>/dev/null);
+do
+    cd "$AUTOPKGTEST_TMP"
+
+    echo "\n=== Testing serial build with $py ==="
+    $py -c "import h5py; h5py.run_tests('-v')"
+done

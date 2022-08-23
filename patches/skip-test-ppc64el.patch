@@ -1,0 +1,20 @@
+Index: h5py/h5py/tests/test_attrs_data.py
+===================================================================
+--- h5py.orig/h5py/tests/test_attrs_data.py	2020-11-01 23:01:29.606160281 +0800
++++ h5py/h5py/tests/test_attrs_data.py	2020-11-01 23:02:07.550350974 +0800
+@@ -14,6 +14,7 @@
+ """
+ 
+ import numpy as np
++import platform
+ 
+ from .common import TestCase, ut
+ 
+@@ -100,6 +101,7 @@
+             self.assertEqual(out.dtype, dt)
+             self.assertArrayEqual(out, data)
+ 
++    @ut.skipIf(platform.machine() == 'ppc64le','skipping test_float on ppc64le')
+     def test_float(self):
+         """ Storage of floating point types """
+         dtypes = tuple(np.dtype(x) for x in ('<f4', '>f4', '>f8', '<f8'))

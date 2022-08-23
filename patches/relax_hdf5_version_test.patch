@@ -1,0 +1,13 @@
+Index: h5py/h5py/__init__.py
+===================================================================
+--- h5py.orig/h5py/__init__.py	2021-08-24 16:51:44.055509270 +0200
++++ h5py/h5py/__init__.py	2021-11-04 01:53:54.049314999 +0100
+@@ -32,7 +32,7 @@
+ 
+ from . import version
+ 
+-if version.hdf5_version_tuple != version.hdf5_built_version_tuple:
++if version.hdf5_version_tuple[0:2] != version.hdf5_built_version_tuple[0:2]:
+     _warn(("h5py is running against HDF5 {0} when it was built against {1}, "
+            "this may cause problems").format(
+             '{0}.{1}.{2}'.format(*version.hdf5_version_tuple),

@@ -1,0 +1,66 @@
+Serial and MPI Builds
+=====================
+
+h5py is available for both serial and MPI builds of HDF5, provided by
+python3-h5py-serial and python3-h5py-mpi, respectively. The serial
+build is provided to avoid the library overheads associated with the
+MPI build, when only serial use is required.
+
+In order to provide flexibility, both can be installed at the same
+time. The choice of which build to use is determined at runtime.
+
+In general you would want a serial job to use HDF5-serial and an MPI
+job to use HDF5-mpi. The installation is set up so that if the job is
+run in a serial process, then the serial build is invoked
+(h5py/_debian_h5py_serial).
+
+If the job is run in an MPI process (openmpi or mpich), then the MPI
+build is invoked (h5py/_debian_h5py_mpi).  The test for MPI uses the
+environment variables OMPI_COMM_WORLD_SIZE and MPI_LOCALNRANKS, set
+automatically at runtime by OpenMPI and MPICH (mpirun), respectively.
+
+Selection between serial and mpi builds of h5py is automatic by
+default (performed in h5py/__init__.py). In normal usage you need
+only specify "import h5py" as usual without having to specify if you
+need the serial or mpi version.
+
+You can check at runtime if mpi is active from h5py.get_config().mpi.
+  $ python3 -c "import h5py; print(h5py.get_config().mpi)"
+should return "False" (serial mode)
+  $ mpirun -n 1 python3 -c "import h5py; print(h5py.get_config().mpi)"
+should return "True" (MPI mode)
+
+
+Enforcing use of h5py-mpi in a serial job
+=========================================
+
+There may be particular circumstances in which you want to access the
+MPI build of HDF5 even from a serial job.  This might be the case if
+you have an app that accesses the HDF5 MPI API directly, and so is
+built against libhdf5-*mpi.so not libhdf5-serial.so. If the same app
+also uses h5py for convenience, then it should use the equivalent
+build, i.e. h5py-mpi not h5py-serial, even if it might be run as a
+serial job.  Or you may have reason to access h5py's MPI API (file
+handling with mpio) even from a serial job.
+
+In this case you have three options for enforcing the use of the MPI
+build in a serial job.
+
+1) You could invoke as a single process MPI job
+  $ mpirun -n 1 python3 myscript.py
+(technically this is not a serial job as such, but an MPI job with one
+process)
+
+2) You may import the MPI build directly, using
+  import h5py._debian_h5py_mpi as h5py
+instead of
+  import h5py
+
+3) Alternatively, you can force the use of the MPI build by setting
+the environment variable H5PY_ALWAYS_USE_MPI.
+
+Option 2 is probably the most transparent, but the other alternatives
+will work.
+
+Obviously python3-h5py-mpi must be installed for any of these to be
+effective.

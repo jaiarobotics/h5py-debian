@@ -1,0 +1,12 @@
+#!/bin/sh
+set -e
+
+export OMPI_MCA_rmaps_base_oversubscribe=yes
+
+for py in $(py3versions -r 2>/dev/null);
+do
+    cd "$AUTOPKGTEST_TMP"
+
+    echo "\n=== Testing mpi build with $py ==="
+    mpirun -n 4 $py -c "import h5py; h5py.run_tests('-v --with-mpi -p no:xvfb')"
+done

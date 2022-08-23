@@ -1,0 +1,10 @@
+Document: python-h5py-doc.api
+Title: API documentation for h5py
+Author: Andrew Collette and contributors
+Abstract: This is the reference documentation for the low-level API of the h5py
+ Python package.
+Section: Programming/Python
+
+Format: HTML
+Index: /usr/share/doc/python-h5py-doc/api/html/index.html
+Files: /usr/share/doc/python-h5py-doc/api/html/*.html

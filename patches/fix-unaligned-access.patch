@@ -1,0 +1,15 @@
+Index: h5py/h5py/_conv.pyx
+===================================================================
+--- h5py.orig/h5py/_conv.pyx	2021-08-24 16:51:44.055509270 +0200
++++ h5py/h5py/_conv.pyx	2021-11-09 23:46:16.889853530 +0100
+@@ -841,8 +841,8 @@
+ 
+     H5Tconvert(intype.id, outtype.id, len, data, NULL, H5P_DEFAULT)
+ 
+-    in_vlen[0].len = len
+-    in_vlen[0].ptr = data
++    memcpy(&in_vlen[0].len, &len, sizeof(size_t))
++    memcpy(&in_vlen[0].ptr, &data, sizeof(void*))
+ 
+     return 0
+ 

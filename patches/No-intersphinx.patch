@@ -1,0 +1,21 @@
+From: Ghislain Antony Vaillant <ghisvail@gmail.com>
+Date: Sun, 3 Sep 2017 17:57:09 +0200
+Subject: No intersphinx
+
+---
+ docs/conf.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+Index: h5py/docs/conf.py
+===================================================================
+--- h5py.orig/docs/conf.py	2021-07-08 15:03:48.035041009 +0200
++++ h5py/docs/conf.py	2021-07-08 15:03:48.031041001 +0200
+@@ -34,7 +34,7 @@
+         'sphinx.ext.mathjax',
+ ]
+ 
+-intersphinx_mapping = {'low': ('https://api.h5py.org', None)}
++#intersphinx_mapping = {'low': ('https://api.h5py.org', None)}
+ 
+ extlinks = {
+     'issue': ('https://github.com/h5py/h5py/issues/%s', 'GH'),

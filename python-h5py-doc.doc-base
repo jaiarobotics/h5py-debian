@@ -1,0 +1,9 @@
+Document: python-h5py-doc
+Title: HDF5 for Python
+Author: Andrew Collette and contributors
+Abstract: This is the reference documentation for the h5py package.
+Section: Science/Data Analysis
+
+Format: HTML
+Index: /usr/share/doc/python-h5py-doc/html/index.html
+Files: /usr/share/doc/python-h5py-doc/html/*.html

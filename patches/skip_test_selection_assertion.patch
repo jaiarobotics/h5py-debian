@@ -1,0 +1,27 @@
+Index: h5py/h5py/tests/test_selections.py
+===================================================================
+--- h5py.orig/h5py/tests/test_selections.py	2020-11-06 12:11:36.615700964 +0800
++++ h5py/h5py/tests/test_selections.py	2020-11-06 12:20:25.093712821 +0800
+@@ -103,7 +103,11 @@
+ 
+         # args is list, return a FancySelection
+         st = sel.select((10,), list([1,2,3]), dset)
+-        self.assertIsInstance(st, sel.FancySelection)
++        #self.assertIsInstance(st, sel.FancySelection)
++        # Debian pushes classes into submodules _debian_h5py_serial or _debian_h5py_mpi
++        # so assertIsInstance does not recognize that h5py._debian_h5py_serial._hl.selections.FancySelection
++        # is h5py._hl.selections.FancySelection. Hence check by type name instead.
++        self.assertEqual(type(st).__name__, 'FancySelection')
+ 
+         # args is a Boolean mask, return a PointSelection
+         st1 = sel.select((5,), np.array([True,False,False,False,True]), dset)
+@@ -111,7 +115,8 @@
+ 
+         # args is int, return a SimpleSelection
+         st2 = sel.select((10,), 1, dset)
+-        self.assertIsInstance(st2, sel.SimpleSelection)
++        #self.assertIsInstance(st2, sel.SimpleSelection)
++        self.assertEqual(type(st2).__name__, 'SimpleSelection')
+ 
+         # args is RegionReference, return a Selection instance
+         st3 = sel.select((100,100), regref, dset)

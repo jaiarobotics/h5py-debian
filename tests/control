@@ -1,0 +1,18 @@
+Tests: python3-serial
+Depends: python3-all,
+         python3-h5py,
+         python3-h5py-serial,
+         python3-pytest,
+         python3-pytest-mpi,
+         python3-unittest2,
+Restrictions: allow-stderr
+
+Tests: python3-mpi
+Depends: python3-all,
+         python3-h5py,
+         python3-h5py-mpi,
+         python3-pytest,
+         python3-pytest-mpi,
+         python3-unittest2,
+         mpi-default-bin
+Restrictions: allow-stderr

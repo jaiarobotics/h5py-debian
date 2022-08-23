@@ -1,0 +1,85 @@
+Index: h5py/setup_build.py
+===================================================================
+--- h5py.orig/setup_build.py	2021-07-08 15:03:58.831063193 +0200
++++ h5py/setup_build.py	2021-07-08 15:03:58.827063185 +0200
+@@ -18,6 +18,8 @@
+ import api_gen
+ from setup_configure import BuildConfig
+ 
++# set flavour  to 'pre_h5py_suf' to enable alternative builds e.g. _debian_h5py_mpi
++flavour=''
+ 
+ def localpath(*args):
+     return op.abspath(op.join(op.dirname(__file__), *args))
+@@ -108,9 +110,13 @@
+             #settings['runtime_library_dirs'] = settings['library_dirs']
+ 
+         def make_extension(module):
+-            sources = [localpath('h5py', module + '.pyx')] + EXTRA_SRC.get(module, [])
++            sources = [localpath('h5py', flavour, module+'.pyx')] + EXTRA_SRC.get(module, [])
+             settings['libraries'] += EXTRA_LIBRARIES.get(module, [])
+-            return Extension('h5py.' + module, sources, **settings)
++            if flavour:
++                h5py_module='h5py'+'.'+flavour+'.'+module
++            else:
++                h5py_module='h5py'+'.'+module
++            return Extension(h5py_module, sources, **settings)
+ 
+         return [make_extension(m) for m in MODULES]
+ 
+@@ -132,14 +138,14 @@
+         config = BuildConfig.from_env()
+         config.summarise()
+ 
+-        defs_file = localpath('h5py', 'defs.pyx')
+-        func_file = localpath('h5py', 'api_functions.txt')
+-        config_file = localpath('h5py', 'config.pxi')
++        defs_file = localpath('h5py', flavour, 'defs.pyx')
++        func_file = localpath('h5py', flavour, 'api_functions.txt')
++        config_file = localpath('h5py', flavour, 'config.pxi')
+ 
+         # Rebuild low-level defs if missing or stale
+         if not op.isfile(defs_file) or os.stat(func_file).st_mtime > os.stat(defs_file).st_mtime:
+             print("Executing api_gen rebuild of defs")
+-            api_gen.run()
++            api_gen.run(flavour=flavour)
+ 
+         # Rewrite config.pxi file if needed
+         s = """\
+Index: h5py/api_gen.py
+===================================================================
+--- h5py.orig/api_gen.py	2021-07-08 15:03:58.831063193 +0200
++++ h5py/api_gen.py	2021-07-08 15:03:58.827063185 +0200
+@@ -166,15 +166,15 @@
+ 
+ class LineProcessor(object):
+ 
+-    def run(self):
++    def run(self, flavour=''):
+ 
+         # Function definitions file
+-        self.functions = open(op.join('h5py', 'api_functions.txt'), 'r')
++        self.functions = open(op.join('h5py', flavour, 'api_functions.txt'), 'r')
+ 
+         # Create output files
+-        self.raw_defs = open(op.join('h5py', '_hdf5.pxd'), 'w')
+-        self.cython_defs = open(op.join('h5py', 'defs.pxd'), 'w')
+-        self.cython_imp = open(op.join('h5py', 'defs.pyx'), 'w')
++        self.raw_defs = open(op.join('h5py', flavour, '_hdf5.pxd'), 'w')
++        self.cython_defs = open(op.join('h5py', flavour, 'defs.pxd'), 'w')
++        self.cython_imp = open(op.join('h5py', flavour, 'defs.pyx'), 'w')
+ 
+         self.raw_defs.write(raw_preamble)
+         self.cython_defs.write(def_preamble)
+@@ -296,9 +296,9 @@
+         self.cython_imp.write(imp)
+ 
+ 
+-def run():
++def run(flavour=''):
+     lp = LineProcessor()
+-    lp.run()
++    lp.run(flavour=flavour)
+ 
+ 
+ if __name__ == '__main__':

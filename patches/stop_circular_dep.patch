@@ -1,0 +1,21 @@
+Index: h5py/h5py/_objects.pyx
+===================================================================
+--- h5py.orig/h5py/_objects.pyx	2020-11-01 23:12:20.205721604 +0800
++++ h5py/h5py/_objects.pyx	2020-11-01 23:12:20.201721619 +0800
+@@ -99,13 +99,13 @@
+ 
+ @with_phil
+ def print_reg():
+-    import h5py
++    from . import h5f, h5g
+     refs = registry.values()
+     objs = [r() for r in refs]
+ 
+     none = len([x for x in objs if x is None])
+-    files = len([x for x in objs if isinstance(x, h5py.h5f.FileID)])
+-    groups = len([x for x in objs if isinstance(x, h5py.h5g.GroupID)])
++    files = len([x for x in objs if isinstance(x, h5f.FileID)])
++    groups = len([x for x in objs if isinstance(x, h5g.GroupID)])
+ 
+     print("REGISTRY: %d | %d None | %d FileID | %d GroupID" % (len(objs), none, files, groups))
+ 
