@@ -124,10 +124,10 @@ workflows:
 jobs:
   get-orig-source:
     <<: *job-template-amd64
-    docker: *docker-base-jammy
+    docker: *docker-base-focal
     environment:
       <<: *environment-template-common
-      <<: *environment-template-jammy
+      <<: *environment-template-focal
       <<: *environment-template-amd64
     steps:
       - checkout
@@ -172,13 +172,7 @@ jobs:
       <<: *environment-template-common
       <<: *environment-template-focal
       <<: *environment-template-arm64
-  armhf-focal-build: 
-    <<: *job-template-cross
-    docker: *docker-base-focal
-    environment:
-      <<: *environment-template-common
-      <<: *environment-template-focal
-      <<: *environment-template-armhf
+
       
   upload:
     <<: *job-template-upload
@@ -199,7 +193,6 @@ jobs:
       - run:
           name: Move original source into output directory
           command: mv /root/src/* /root/deb
-      - run: *run-set-deb-rep-and-version
       - run:      
           name: Upload packages to packages.jaia.tech
           command: |
